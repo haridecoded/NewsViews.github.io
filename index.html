@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Page Needs-->
+    <meta charset="utf-8">
+    <title>NewsViews -  STUDY 2</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Mobile Specific Metas-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- FONT-->
+    <!--<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">-->
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <!-- Favicon-->
+    <!--<link rel="icon" type="image/png" href="images/favicon.png">-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>    
+    <script type="text/javascript" src="js/study2.js"></script>
+</head>
+<body>
+
+    <!-- Primary Page Layout-->
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns" style="margin-top:5%">
+                <h4>NewsViews - STUDY 2</h4>
+                <p style="font-size: 20px; color: #10485a">We are designing a magazine cover page, and there is space for only one image.  <b> Pick the image that you think is most interesting?</b>  </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="three columns alpha">
+                <img src="images/cover.png" style='max-width:100%;max-height:100%;' />
+            </div>
+            <div class="nine columns">
+                <div class="row">
+                    <div class="three columns imgpl" id="input0"></div>
+                    <div class="three columns imgpl" id="input1"></div>
+                    <div class="three columns imgpl" id="input2"></div>
+                    <div class="three columns imgpl" id="input3"></div>
+                </div>
+                <div class="row">
+                    <div class="three columns imgpl" id="img0"></div>
+                    <div class="three columns imgpl" id="img1"></div>
+                    <div class="three columns imgpl" id="img2"></div>
+                    <div class="three columns imgpl" id="img3"></div>
+                </div>
+                <!--<div class="row">
+                    <div class="one-half column" id="img2"></div>
+                    <div class="one-half column" id="img3"></div>
+                </div>-->
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <input class="button" onclick="generateImages()" type="button" value="Submit" style="float:right;">
+        </div>
+    </div>
+    <!-- End Document-->
+</body>
+</html>
