@@ -1,0 +1,166 @@
+<html>
+<head>
+    <link href="css/literallycanvas.css" rel="stylesheet">
+    <link href="css/skeleton.css" rel="stylesheet">
+    <link href="css/normalize.css" rel="stylesheet">    
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/react-with-addons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+    <script src="js/literallycanvas.min.js"></script>
+    <style>
+        .step {
+            width: 1000px;
+            height: 600px;
+            padding: 10px;
+        }
+
+      
+        .label > input + img{ /* IMAGE STYLES */
+          cursor:pointer;
+          border:2px solid transparent;
+        }
+        .label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+          border:4px solid #2fd74a;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <div class="step" id="step1">
+        <div class="row">
+            <h5>We are designing a magazine cover page, and there is space for only one image. <b>Select the option that you think is most interesting.</b></h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+            <div class="three columns alpha" style="padding-top: 20px;">
+                <img src="https://s3.us-east-2.amazonaws.com/newsviews-study1/cover.png" style="width: 100%"/>
+            </div>
+            <div class="four columns">
+                <label class="label">
+                    <span>Option A</span>
+                    <input type="radio" name="chart" value="optionA"/>
+                    <img id="imgA" style="width: 95%;"/>
+                </label>
+            </div>
+            <div class="four columns">
+                <label class="label">
+                    <span>Option B</span>
+                    <input type="radio" name="chart" value="optionB"/>
+                    <img id="imgB" style="width: 95%"/>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" onclick="showDrawing()" class="button" style="float: right; margin-right: 100px; margin-top: 10px;">Next</button>         
+        </div>
+    </div>
+    <div class="step" id="step2" style="display: none;">
+        <div class="row">
+            <h5>Now draw the option that you picked for the magazine cover: </h5>
+        </div>
+        <div class="row">
+            <div class="my-drawing" style="border: 1px solid gray; border-radius: 2px;">
+            </div>
+        </div>
+        <div class="row">
+            <input class="button-primary" onclick="submitForm()" type="button" value="Submit" style="float:right; margin-top: 10px;">
+        </div>
+    </div>
+
+</form>
+
+<!-- kick it off -->
+<script>
+    var lookup = ["1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9", "1_10", "2_3", "2_4",
+        "2_5", "2_6", "2_7", "2_8", "2_9", "2_10", "3_4", "3_5", "3_6", "3_7", "3_8", "3_9", "3_10",
+        "4_5", "4_6", "4_7", "4_8", "4_9", "4_10", "5_6", "5_7", "5_8", "5_9",
+        "5_10","6_7","6_8","6_9","6_10","7_8","7_9","7_10","8_9","8_10","9_10"];
+    var url_params = {};
+    var lc;
+    $(document)
+        .ready(function () {           
+            var url = window.location.href;
+            var getQuery = url.split('?')[1];
+            if (getQuery) {
+                var params = getQuery.split('&');
+                params.forEach(function (p) {
+                    url_params[p.split("=")[0]] = p.split("=")[1];
+                });
+                if ("id" in url_params) {
+                    if (Math.random() > 0.5) {
+                        $("#imgA")
+                            .attr("src",
+                                "https://s3.us-east-2.amazonaws.com/newsviews-study1/bar" +
+                                lookup[parseInt(url_params["id"])].split("_")[0] +
+                                ".png");
+                        $("#imgB")
+                            .attr("src",
+                                "https://s3.us-east-2.amazonaws.com/newsviews-study1/bar" +
+                                lookup[parseInt(url_params["id"])].split("_")[1] +
+                                ".png");
+                    } else {
+                        $("#imgA")
+                          .attr("src",
+                              "https://s3.us-east-2.amazonaws.com/newsviews-study1/bar" +
+                              lookup[parseInt(url_params["id"])].split("_")[1] +
+                              ".png");
+                        $("#imgB")
+                            .attr("src",
+                                "https://s3.us-east-2.amazonaws.com/newsviews-study1/bar" +
+                                lookup[parseInt(url_params["id"])].split("_")[0] +
+                                ".png");
+                    }    
+                }
+                
+            }            
+        });
+
+    function showDrawing() {
+        $("#step1").hide();
+        $("#step2").show();
+        var img = new Image()
+        img.src = 'img/skeleton.png';
+        lc = LC.init(
+               document.getElementsByClassName('my-drawing')[0],
+               {
+                   imageURLPrefix: 'img/',
+                   toolbarPosition: 'hidden',
+                   tools: [LC.tools.Pencil, LC.tools.Eraser],
+                   strokeWidths: [],
+                   defaultStrokeWidth: 2,
+                   backgroundColor: "fff",
+                   watermarkImage: img,
+                   watermarkScale: 0.55
+               }
+           );
+        $(".lc-color-pickers").hide();
+        $(".lc-zoom").hide();
+        $(".lc-zoom").hide();      
+    }
+
+    function submitForm() {
+        if ("id" in url_params) {
+            window.location.href = window.location.href.split('?')[0] + "?id=" + (parseInt(url_params["id"]) + 1);
+        }
+        //$.ajax({
+        //    url: 'https://api.imgur.com/3/image',
+        //    type: 'POST',
+        //    headers: {
+        //        // Your application gets an imgurClientId from Imgur
+        //        Authorization: 'Client-ID ' + '9dbfa732bd2bb10',
+        //        Accept: 'application/json'
+        //    },
+        //    data: {
+        //        // convert the image data to base64
+        //        image: lc.canvasForExport().toDataURL().split(',')[1],
+        //        type: 'base64'
+        //    },
+        //    success: function (result) {
+        //        var url = 'https://imgur.com/gallery/' + result.data.id;
+        //        $('.imgur-submit').html("<a href='" + url + "'>" + url + "</a>");
+                
+        //    }
+        //});
+    }
+</script>
+</body>
+</html>
